@@ -15,7 +15,7 @@ jobs:
           node-version: '22'
       - run: python tests/test_core.py
       - run: node --test tests/model.test.cjs
-      - run: npm install --ignore-scripts
+      - run: npm install --ignore-scripts --package-lock=false
       - run: npx playwright install --with-deps chromium
       - run: npm run test:ui
       - name: Real Linux mount semantics (not Android compatibility)

@@ -32,7 +32,9 @@ printf 'updated' > "$src/video.mp4"
 [ "$(cat "$target/video.mp4")" = updated ]
 printf 'new' > "$src/new.mp4"
 [ "$(cat "$target/new.mp4")" = new ]
-cleanup_obsolete
+# Production runs without errexit: a missing desired mapping is expected during
+# cleanup. Keep that behavior here, then verify the actual mount/data outcome.
+cleanup_obsolete || :
 ! is_mounted "$target"
 [ "$(cat "$src/video.mp4")" = updated ]
 echo 'PASS: real bind mount, same inode, read-only alias, writable live source, clean detach'
