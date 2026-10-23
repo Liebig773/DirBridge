@@ -1,0 +1,14 @@
+{
+  "name": "dirbridge",
+  "version": "0.1.3",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/model.test.cjs",
+    "test:ui": "node --test tests/ui.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "author": "liebig"
+}

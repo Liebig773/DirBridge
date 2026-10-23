@@ -1,0 +1,10 @@
+const test=require('node:test'),assert=require('node:assert/strict');
+const M=require('../module/webroot/model.js');
+const sample={id:'m_1',alias:'电报 视频',source:'/storage/emulated/0/Android/data/org.telegram.messenger/files/Telegram Video',enabled:true};
+test('Unicode configuration round-trip',()=>assert.deepEqual(M.parse(M.serialize([sample])),[sample]));
+test('No shell interpretation of literal metacharacters',()=>{const v={...sample,alias:"video ' $(id) `id`"};assert.deepEqual(M.parse(M.serialize([v])),[v]);});
+test('Reject traversal, recursive output and private internal storage',()=>{for(const s of ['/data/data/app/files','/sdcard/Android/data','/sdcard/Download/../Movies/a','/sdcard/Movies/DirBridge','/sdcard/Movies/DirBridge/a','/sdcard/Download/a\nb'])assert.throws(()=>M.validateSource(s));});
+test('Reject duplicate names and IDs',()=>{assert.throws(()=>M.serialize([sample,{...sample,id:'m_2'}]));assert.throws(()=>M.serialize([sample,{...sample,alias:'other'}]));});
+test('Disabled mappings preserved',()=>assert.equal(M.parse(M.serialize([{...sample,enabled:false}]))[0].enabled,false));
+test('Normalize sdcard and raw lower paths',()=>{assert.equal(M.validateSource('/sdcard/Download/test/'),'/storage/emulated/0/Download/test');assert.equal(M.validateSource('/data/media/0/Download/test'),'/storage/emulated/0/Download/test');});
+test('Limit count and malformed input',()=>{assert.throws(()=>M.parse('m|1|broken'));assert.throws(()=>M.serialize(Array.from({length:65},(_,i)=>({...sample,id:'m'+i,alias:'a'+i}))));});

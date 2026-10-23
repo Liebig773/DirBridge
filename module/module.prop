@@ -1,0 +1,6 @@
+id=dirbridge
+name=DirBridge · 下载目录映射
+version=v0.1.3
+versionCode=103
+author=liebig
+description=多应用下载目录只读映射；KernelSU WebUI 配置；重启后自动应用已保存的映射。

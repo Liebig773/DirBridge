@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><title>DirBridge 下载目录映射</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<main>
+  <header><div class="mark" aria-hidden="true">⇄</div><div><h1>DirBridge</h1><p>让下载目录出现在播放器里</p></div><span class="version">0.1.3</span></header>
+  <section class="intro"><strong>同一份视频，多个入口</strong><p>把应用的下载文件夹映射到 <code>Movies/DirBridge</code>。不复制视频，只读访问。手机重启并解锁后，模块会自动重新建立已保存且启用的目录映射；已暂停或停用的映射不会自动开启。</p><div id="environment" class="subtle">正在读取设备…</div></section>
+  <div id="notice" role="status" aria-live="polite"></div>
+  <section class="toolbar"><button id="add" class="primary">＋ 添加目录</button><button id="apply">重新应用</button><button id="refresh">刷新状态</button></section>
+  <div class="section-title"><h2>我的映射</h2><button id="pause" class="text-button">暂停全部</button></div>
+  <div id="mappings"></div>
+  <section class="help"><h2>在播放器中查看视频</h2><ol><li>打开你的 MX Player 或其他本地播放器，通常就可以直接找到映射目录中的视频。如果找不到，再按下面的步骤添加路径。</li><li>确认播放器已获得视频或所有文件访问权限，然后刷新或重新扫描视频列表。</li><li>在播放器的文件夹或扫描目录设置中，添加 <code>/storage/emulated/0/Movies/DirBridge</code>。MX Player 可在「设置 → 列表 → 文件夹」中添加，完成后刷新。</li><li>仍然看不到时，检查隐藏文件和 <code>.nomedia</code> 排除设置，再打开映射目录查看。</li></ol><p>如果仍无视频，请重新打开播放器，并在上方检查目录的映射状态。</p><p>原应用清理或删除视频后，这里的视频也会消失。缓存碎片、加密视频不会自动变成可播放文件。</p><button id="diagnose">查看诊断</button></section>
+  <footer>多目录映射 · 开机自动应用<br>仅支持主用户的内部共享存储 · 纯本地运行</footer>
+</main>
+<dialog id="editor"><form id="mapping-form"><div class="dialog-title"><h2 id="editor-title">添加目录</h2><button type="button" id="close-editor" aria-label="关闭">×</button></div><label>播放器中的文件夹名称<input id="alias" maxlength="60" placeholder="例如：电报视频" required autocomplete="off"></label><label>应用的下载目录<textarea id="source" rows="3" placeholder="/storage/emulated/0/Android/data/应用包名/files/下载目录" required spellcheck="false"></textarea></label><button id="browse" type="button">选择目录</button><p class="hint">选择实际存放视频的子目录。名称和路径支持中文、空格；每个映射使用不同名称。</p><label class="switch"><input id="enabled" type="checkbox" checked>启用这个映射</label><div class="actions"><button type="button" id="cancel-editor">取消</button><button id="save" class="primary" type="submit">保存并应用</button></div><p id="form-error" role="alert"></p></form></dialog>
+<dialog id="picker"><div class="dialog-title"><h2>选择下载目录</h2><button id="close-picker" aria-label="关闭">×</button></div><div class="roots"><button data-root="Android/data">应用 data</button><button data-root="Android/media">应用 media</button><button data-root="Download">Download</button><button data-root="Movies">Movies</button><button data-root="DCIM">DCIM</button></div><p id="browse-path" class="path"></p><button id="parent">↑ 上一级</button><div id="folders"></div><div class="actions"><button id="select-folder" class="primary">使用此目录</button></div><p id="browse-error" role="alert"></p></dialog>
+<dialog id="diagnostic"><div class="dialog-title"><h2>诊断信息</h2><button id="close-diagnostic" aria-label="关闭">×</button></div><p class="hint">包含设备型号和配置路径，不读取视频内容。反馈前可删去私人路径。</p><textarea id="diagnostic-text" rows="16" readonly></textarea><button id="copy-diagnostic">复制诊断</button></dialog>
+<script src="model.js"></script><script src="app.js"></script>
+</body></html>
